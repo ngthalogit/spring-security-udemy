@@ -3,6 +3,8 @@ package org.nashtech.config;
 import jakarta.servlet.http.HttpServletRequest;
 import org.nashtech.filter.CsrfCookieFilter;
 import org.nashtech.filter.GmailValidationFilter;
+import org.nashtech.filter.JwtAuthenticationFilter;
+import org.nashtech.filter.JwtGeneratorFilter;
 import org.nashtech.repository.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +35,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.sql.DataSource;
 import java.util.*;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -45,13 +48,20 @@ public class WebSecurityConfig {
 
 
         http
-                .securityContext(
-                        (context) ->
-                                context.requireExplicitSave(false)
-                )
+                // no need to onfig these lines as we using jwt
+//                .securityContext(
+//                        (context) ->
+//                                context.requireExplicitSave(false)
+//                )
+//                .sessionManagement(
+//                        (session) ->
+//                                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//                )
                 .sessionManagement(
                         (session) ->
-                                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                                // STATELESS tells spring boot not to create any JssessionID or historic
+                                // HttpSection
+                                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(
                         (authz) -> authz
@@ -79,8 +89,9 @@ public class WebSecurityConfig {
                                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 ) // enable any POST or PUT request
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new GmailValidationFilter(), UsernamePasswordAuthenticationFilter.class);
-        ;
+                .addFilterBefore(new GmailValidationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtGeneratorFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(), BasicAuthenticationFilter.class);
 
         /* Below is the custom security config of denying all requests */
 
@@ -111,6 +122,7 @@ public class WebSecurityConfig {
         corsConfig.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
         corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
+        corsConfig.setAllowedHeaders(List.of(AUTHORIZATION));
         corsConfig.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);

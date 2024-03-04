@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @SpringBootApplication
 /* The following annotation show all spring security filters in debug mode */
-@EnableWebSecurity
+//@EnableWebSecurity
 public class EazyBankBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(EazyBankBackendApplication.class, args);
