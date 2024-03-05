@@ -29,7 +29,7 @@ public class PublicApiController {
         return ResponseEntity.ok(Optional.ofNullable(this.sensitives.get(key)).orElse("Could not found data with key = " + key));
     }
 
-    /* This request is not allowed as it has not been configurated to satisfy csrf in web security configuration */
+    /* This request is not allowed as it has not been configured to satisfy csrf in web security configuration */
     @PostMapping("/sensitive/code")
     public ResponseEntity<String> getSensitiveNumbers() {
         return ResponseEntity.ok(UUID.randomUUID().toString());

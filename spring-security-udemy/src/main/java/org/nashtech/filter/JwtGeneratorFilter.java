@@ -21,7 +21,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class JwtGeneratorFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         Authentication authn = SecurityContextHolder.getContext().getAuthentication();
         Optional.ofNullable(authn).ifPresent((auth) -> {
             Date now = new Date();
@@ -38,14 +39,17 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
                     .compact();
             response.setHeader(AUTHORIZATION, jwt);
         });
+        filterChain.doFilter(request, response);
     }
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getServletPath().equals("/login");
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return !request.getServletPath().equals("/secured/home");
     }
 
     private String getAuthorities(Collection<? extends GrantedAuthority> authorities) {
         Set<String> returnedAuthorities = new HashSet<>();
-        authorities.stream().forEach((role) -> returnedAuthorities.add(role.getAuthority()));
+        authorities.forEach((role) -> returnedAuthorities.add(role.getAuthority()));
         return String.join(",", returnedAuthorities);
     }
 }

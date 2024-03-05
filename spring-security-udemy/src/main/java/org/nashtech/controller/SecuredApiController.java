@@ -1,9 +1,8 @@
 package org.nashtech.controller;
 
 import org.nashtech.model.Customer;
+import org.nashtech.service.ControllerService;
 import org.nashtech.service.CustomerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +12,7 @@ import java.util.*;
 @RequestMapping("secured")
 public class SecuredApiController {
     private final CustomerService customerService;
+    private final ControllerService controllerService;
     private final Map<Integer, String> sensitives = new HashMap<>() {
         {
             put(1, "The first sensitive data from secured api");
@@ -21,8 +21,9 @@ public class SecuredApiController {
         }
     };
 
-    public SecuredApiController(CustomerService customerService) {
+    public SecuredApiController(CustomerService customerService, ControllerService controllerService) {
         this.customerService = customerService;
+        this.controllerService = controllerService;
     }
 
     @GetMapping("/home")
@@ -51,7 +52,7 @@ public class SecuredApiController {
 
     @GetMapping("/view/data3")
     public ResponseEntity<String> getViewData3() {
-        return ResponseEntity.ok("This is data 3");
+        return ResponseEntity.ok(controllerService.data3());
     }
 
     @GetMapping("/view/data4")

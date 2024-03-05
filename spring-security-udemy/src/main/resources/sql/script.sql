@@ -28,8 +28,9 @@ INSERT INTO authorities (customer_id, name) VALUES (2, 'VIEWCUSTOMER');
 
 DELETE FROM authorities;
 
-INSERT INTO authorities (customer_id, name) VALUES (2, 'ROLE_ADMIN');
+INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO authorities (customer_id, name) VALUES (2, 'ROLE_USER');
+INSERT INTO authorities (customer_id, name) VALUES (1, 'ROLE_USER');
 
 SELECT * FROM authorities;
 
@@ -50,4 +51,5 @@ CREATE TABLE customer
 );
 
 INSERT INTO customer values (NULL, 'ngthlo.admin@gmail.com', '$2a$10$lM6zWnjKQ72WhvdWXh3R8esFnYgB.9LsZB3PHo/GN3HCtB.xy2ppm', 'admin');
+INSERT INTO customer values (NULL, 'ngthlo.user@gmail.com', '$2a$10$lM6zWnjKQ72WhvdWXh3R8esFnYgB.9LsZB3PHo/GN3HCtB.xy2ppm', 'user');
 
