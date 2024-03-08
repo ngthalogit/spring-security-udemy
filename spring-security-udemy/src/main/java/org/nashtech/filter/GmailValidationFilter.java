@@ -21,7 +21,7 @@ public class GmailValidationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String email = request.getParameter("username");
+        String email = request.getParameter("email");
         Optional.ofNullable(email).ifPresent(e -> {
             if (!email.endsWith(GMAIL_SUFFIX)) {
                 httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());

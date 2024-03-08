@@ -8,7 +8,7 @@ import java.util.List;
 public interface CustomerService {
     int saveCustomer(Customer customer);
 
-    Customer customerWithRegister(RegisterCustomer registerCustomer);
-
     List<Customer> getAll();
+
+    boolean findByEmail(String email);
 }
