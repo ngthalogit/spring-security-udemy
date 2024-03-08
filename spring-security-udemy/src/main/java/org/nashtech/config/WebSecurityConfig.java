@@ -70,13 +70,14 @@ public class WebSecurityConfig {
                                 .requestMatchers("secured/view/data3").authenticated()
                                 .requestMatchers("secured/view/data4").hasAuthority("VIEWDATA4")
                                 .requestMatchers("secured/customer").hasAuthority("VIEWCUSTOMER")
-                                .requestMatchers("/secured/**")
+                                .requestMatchers("/secured/**", "/oauth")
                                 .authenticated()
                                 .requestMatchers("/public/**")
                                 .permitAll()
                 )
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
+                .oauth2Login(Customizer.withDefaults())
+//                .formLogin(withDefaults())
+//                .httpBasic(withDefaults())
                 .cors(
                         (cors) -> cors
                                 .configurationSource(configurationSource())
