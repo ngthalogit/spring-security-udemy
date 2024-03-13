@@ -1,14 +1,14 @@
 create database eazybank;
 use eazybank;
 
-CREATE TABLE users
-(
-    id       INT         NOT NULL AUTO_INCREMENT,
-    username VARCHAR(45) NOT NULL,
-    password VARCHAR(45) NOT NULL,
-    enabled  INT         NOT NULL,
-    PRIMARY KEY (id)
-);
+# CREATE TABLE users
+# (
+#     id       INT         NOT NULL AUTO_INCREMENT,
+#     username VARCHAR(45) NOT NULL,
+#     password VARCHAR(45) NOT NULL,
+#     enabled  INT         NOT NULL,
+#     PRIMARY KEY (id)
+# );
 
 CREATE TABLE authorities
 (
@@ -36,10 +36,10 @@ SELECT * FROM authorities;
 
 
 
-INSERT IGNORE INTO users
-VALUES (NULL, 'ngthlo', 'ngthlo', 1);
-INSERT IGNORE INTO authorities
-VALUES (NULL, 'ngthlo', 'write');
+# INSERT IGNORE INTO users
+# VALUES (NULL, 'ngthlo', 'ngthlo', 1);
+# INSERT IGNORE INTO authorities
+# VALUES (NULL, 'ngthlo', 'write');
 
 CREATE TABLE customer
 (
@@ -53,3 +53,4 @@ CREATE TABLE customer
 INSERT INTO customer values (NULL, 'ngthlo.admin@gmail.com', '$2a$10$lM6zWnjKQ72WhvdWXh3R8esFnYgB.9LsZB3PHo/GN3HCtB.xy2ppm', 'admin');
 INSERT INTO customer values (NULL, 'ngthlo.user@gmail.com', '$2a$10$lM6zWnjKQ72WhvdWXh3R8esFnYgB.9LsZB3PHo/GN3HCtB.xy2ppm', 'user');
 
+SELECT * FROM customer;
